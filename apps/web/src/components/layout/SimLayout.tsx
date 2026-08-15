@@ -65,8 +65,15 @@ function ScoreGauge({ score }: { score: number }) {
 }
 
 export function SimLayout({ children }: { children: React.ReactNode }) {
-  const { student, currentStage, completedStages, blockedStages, lastFeedback, stageScores } =
-    useSimulatorStore();
+  const {
+    session,
+    student,
+    currentStage,
+    completedStages,
+    blockedStages,
+    lastFeedback,
+    stageScores,
+  } = useSimulatorStore();
 
   const scores = Object.values(stageScores);
   const partialScore =
@@ -142,7 +149,7 @@ export function SimLayout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md border border-slate-700/50 px-4 py-2 rounded-sm font-mono text-[10px] text-amber-500 uppercase tracking-widest">
             <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
             REC
-            <span className="opacity-50 ml-2">Sessão {session?.id.split('-')[0]}</span>
+            <span className="opacity-50 ml-2">Sessão {session?.id?.split('-')[0]}</span>
           </div>
 
           <div className="bg-black/40 backdrop-blur-md border border-slate-700/50 p-4 rounded-sm border-r-2 border-r-emerald-500">
@@ -240,6 +247,14 @@ export function SimLayout({ children }: { children: React.ReactNode }) {
               </div>
               <div className="flex-1 font-mono text-sm leading-relaxed">{lastFeedback.message}</div>
             </div>
+          </div>
+        )}
+
+        {/* MODO DEMO BADGE */}
+        {import.meta.env.VITE_DEMO_MODE === 'true' && (
+          <div className="absolute bottom-6 right-6 z-[100] bg-amber-950/60 border border-amber-500/50 text-amber-500 text-[10px] px-4 py-2 rounded-full font-mono flex items-center gap-2 backdrop-blur-md">
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+            MODO DEMO | TELEMETRIA SIMULADA
           </div>
         )}
 
