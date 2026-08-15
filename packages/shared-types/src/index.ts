@@ -34,6 +34,25 @@ export interface TrainingEvent {
   createdAt: string;
 }
 
+export const TRAINING_STAGES = {
+  PPE: 'vestiario',
+  CHARGE: 'carregamento',
+  THERMAL: 'fusao',
+  SKIMMING: 'escumacao',
+  EMERGENCY: 'vazamento',
+} as const;
+
+export type TrainingStage = (typeof TRAINING_STAGES)[keyof typeof TRAINING_STAGES];
+
+export const EVENT_TYPES = {
+  PPE_CHECK: 'ppe_check_completed',
+  CHARGE_INSPECTED: 'charge_inspected',
+  WET_CHARGE_DETECTED: 'wet_charge_detected',
+  THERMAL_CONTROL: 'thermal_control_completed',
+  SKIMMING_COMPLETED: 'skimming_completed',
+  EMERGENCY_TRIGGERED: 'emergency_triggered',
+} as const;
+
 // ─── Occurrence ──────────────────────────────────────────────────────────────
 
 export interface Occurrence {
