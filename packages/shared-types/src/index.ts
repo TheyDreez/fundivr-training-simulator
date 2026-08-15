@@ -21,7 +21,7 @@ export interface TrainingSession {
   score: number | null;
 }
 
-export type SessionStatus = 'pending' | 'in_progress' | 'completed' | 'cancelled';
+export type SessionStatus = 'pending' | 'running' | 'completed' | 'cancelled';
 
 // ─── Training Event ──────────────────────────────────────────────────────────
 

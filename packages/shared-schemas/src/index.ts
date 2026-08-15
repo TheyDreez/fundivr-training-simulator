@@ -6,7 +6,7 @@ export const experienceLevelSchema = z.enum(['beginner', 'intermediate', 'advanc
 
 // ─── Session Status ──────────────────────────────────────────────────────────
 
-export const sessionStatusSchema = z.enum(['pending', 'in_progress', 'completed', 'cancelled']);
+export const sessionStatusSchema = z.enum(['pending', 'running', 'completed', 'cancelled']);
 
 // ─── Occurrence Severity ─────────────────────────────────────────────────────
 
@@ -23,7 +23,7 @@ export const studentSchema = z.object({
 });
 
 export const createStudentSchema = z.object({
-  name: z.string().min(1, 'Nome é obrigatório'),
+  name: z.string().optional(),
   registration: z.string().min(1, 'Matrícula é obrigatória'),
   experienceLevel: experienceLevelSchema.default('beginner'),
 });
@@ -59,6 +59,14 @@ export const createTrainingEventSchema = z.object({
   type: z.string().min(1, 'Tipo é obrigatório'),
   stage: z.string().min(1, 'Estágio é obrigatório'),
   payload: z.record(z.unknown()).default({}),
+});
+
+export const eventPayloadSchema = z.record(z.unknown());
+
+export const eventResponseSchema = z.object({
+  score: z.number(),
+  status: z.string(),
+  feedback: z.string(),
 });
 
 // ─── Occurrence ──────────────────────────────────────────────────────────────
@@ -98,3 +106,5 @@ export type CreateTrainingSessionInput = z.infer<typeof createTrainingSessionSch
 export type CreateTrainingEventInput = z.infer<typeof createTrainingEventSchema>;
 export type CreateOccurrenceInput = z.infer<typeof createOccurrenceSchema>;
 export type WsTelemetryMessageInput = z.infer<typeof wsTelemetryMessageSchema>;
+export type EventPayload = z.infer<typeof eventPayloadSchema>;
+export type EventResponse = z.infer<typeof eventResponseSchema>;
