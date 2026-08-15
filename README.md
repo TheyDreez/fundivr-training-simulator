@@ -1,8 +1,48 @@
 # 🔥 FundiVR Training Simulator
 
-> Simulador web para treinamento de operadores de fornos de fusão de alumínio.
+![React](https://img.shields.io/badge/React-18.3-blue?style=for-the-badge&logo=react)
+![Vite](https://img.shields.io/badge/Vite-5.4-purple?style=for-the-badge&logo=vite)
+![Fastify](https://img.shields.io/badge/Fastify-5.0-black?style=for-the-badge&logo=fastify)
+![Prisma](https://img.shields.io/badge/Prisma-ORM-1B222D?style=for-the-badge&logo=prisma)
+![TailwindCSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)
 
-O sistema registra todas as ações do usuário, envia eventos para uma API REST, persiste os dados em banco e atualiza o ambiente com base na resposta recebida.
+> Simulador web interativo para treinamento imersivo e seguro de operadores de fornos de fusão de alumínio.
+
+O **FundiVR** emula a cabine e os procedimentos de um forno de fusão, focando no desenvolvimento da tomada de decisão e agilidade de reação sob pressão. O sistema registra cada ação do usuário, processando acertos e falhas através de um motor de regras inteligente.
+
+---
+
+## 🎭 Modo Demo (Apresentações Offline)
+
+Pensando em estabilidade para palestras, bancas ou reuniões sem depender de conexão com banco de dados, o projeto possui um **Modo Demo**.
+Quando ativado, o Frontend é capaz de rodar **100% isolado**, simulando delays de rede e forjando todas as respostas da API dinamicamente.
+
+Para ativar no seu ambiente local ou em produção, basta definir a seguinte variável de ambiente no frontend:
+
+```env
+VITE_DEMO_MODE=true
+```
+
+_(Um discreto aviso visual será exibido no canto inferior direito da HUD confirmando que a telemetria é simulada)._
+
+---
+
+## 🚀 Deploy Rápido no Vercel (Frontend)
+
+O FundiVR foi arquitetado para ter o frontend facilmente publicado no Vercel, ideal para demonstrações do Modo Demo.
+
+### Passo a passo para o Deploy:
+
+1. Faça o commit e push do seu código para o GitHub.
+2. Acesse o [Vercel](https://vercel.com/) e clique em **Add New > Project**.
+3. Importe o repositório `fundivr-training-simulator`.
+4. Em **Root Directory**, clique em `Edit` e selecione a pasta `apps/web`.
+5. Abra a aba **Environment Variables** e adicione:
+   - Name: `VITE_DEMO_MODE`
+   - Value: `true`
+6. Clique em **Deploy**! 🚀
+
+Em menos de 1 minuto, você terá uma URL pública e funcional do seu simulador para rodar de qualquer tablet ou notebook.
 
 ---
 
@@ -32,47 +72,51 @@ O projeto utiliza **pnpm workspaces** como monorepo, permitindo compartilhar tip
 ## 🛠 Stack Tecnológica
 
 ### Frontend
-| Tecnologia | Uso |
-|---|---|
-| React 18 | UI Library |
-| TypeScript | Tipagem estática |
-| Vite | Build tool |
-| TailwindCSS 3 | Estilização |
-| Zustand | Estado global |
+
+| Tecnologia             | Uso                                |
+| ---------------------- | ---------------------------------- |
+| React 18               | UI Library                         |
+| TypeScript             | Tipagem estática                   |
+| Vite                   | Build tool                         |
+| TailwindCSS 3          | Estilização                        |
+| Zustand                | Estado global                      |
 | React Query (TanStack) | Gerenciamento de dados assíncronos |
-| Axios | HTTP client |
-| React Router DOM | Roteamento |
-| Framer Motion | Animações |
-| Recharts | Gráficos |
-| Zod | Validação |
+| Axios                  | HTTP client                        |
+| React Router DOM       | Roteamento                         |
+| Framer Motion          | Animações                          |
+| Recharts               | Gráficos                           |
+| Zod                    | Validação                          |
 
 ### Backend
-| Tecnologia | Uso |
-|---|---|
-| Node.js 20 | Runtime |
-| TypeScript | Tipagem estática |
-| Fastify 5 | HTTP Framework |
-| Prisma 6 | ORM |
-| PostgreSQL 15 | Banco de dados |
-| Zod | Validação de schemas |
-| WebSocket | Comunicação em tempo real |
+
+| Tecnologia    | Uso                       |
+| ------------- | ------------------------- |
+| Node.js 20    | Runtime                   |
+| TypeScript    | Tipagem estática          |
+| Fastify 5     | HTTP Framework            |
+| Prisma 6      | ORM                       |
+| PostgreSQL 15 | Banco de dados            |
+| Zod           | Validação de schemas      |
+| WebSocket     | Comunicação em tempo real |
 
 ### Testes
-| Tecnologia | Uso |
-|---|---|
-| Vitest | Test runner |
-| Supertest | HTTP assertions |
+
+| Tecnologia | Uso             |
+| ---------- | --------------- |
+| Vitest     | Test runner     |
+| Supertest  | HTTP assertions |
 
 ### Infra
-| Tecnologia | Uso |
-|---|---|
-| Docker | Containerização |
+
+| Tecnologia     | Uso                |
+| -------------- | ------------------ |
+| Docker         | Containerização    |
 | Docker Compose | Orquestração local |
-| pnpm | Package manager |
-| Husky | Git hooks |
-| lint-staged | Linting pre-commit |
-| ESLint | Linter |
-| Prettier | Formatador |
+| pnpm           | Package manager    |
+| Husky          | Git hooks          |
+| lint-staged    | Linting pre-commit |
+| ESLint         | Linter             |
+| Prettier       | Formatador         |
 
 ---
 
@@ -112,11 +156,11 @@ pnpm dev
 
 ### Portas padrão
 
-| Serviço | Porta |
-|---|---|
-| Frontend (Vite) | `5173` |
+| Serviço           | Porta  |
+| ----------------- | ------ |
+| Frontend (Vite)   | `5173` |
 | Backend (Fastify) | `3001` |
-| PostgreSQL | `5432` |
+| PostgreSQL        | `5432` |
 
 ---
 
@@ -129,21 +173,25 @@ docker compose up
 ```
 
 Isso irá iniciar:
+
 - **PostgreSQL** na porta 5432
 - **API** na porta 3001
 - **Web** na porta 5173
 
 Para rebuild completo:
+
 ```bash
 docker compose up --build
 ```
 
 Para parar:
+
 ```bash
 docker compose down
 ```
 
 Para remover volumes (dados do banco):
+
 ```bash
 docker compose down -v
 ```
@@ -154,37 +202,37 @@ docker compose down -v
 
 ### Raiz do monorepo
 
-| Comando | Descrição |
-|---|---|
-| `pnpm dev` | Inicia frontend e backend em paralelo |
-| `pnpm build` | Build de produção (packages + apps) |
-| `pnpm lint` | Executa ESLint em todos os projetos |
-| `pnpm format` | Formata código com Prettier |
-| `pnpm test` | Executa testes em todos os projetos |
-| `pnpm db:generate` | Gera o Prisma Client |
-| `pnpm db:migrate` | Executa migrations do Prisma |
-| `pnpm db:studio` | Abre o Prisma Studio |
-| `pnpm clean` | Remove node_modules e dist |
+| Comando            | Descrição                             |
+| ------------------ | ------------------------------------- |
+| `pnpm dev`         | Inicia frontend e backend em paralelo |
+| `pnpm build`       | Build de produção (packages + apps)   |
+| `pnpm lint`        | Executa ESLint em todos os projetos   |
+| `pnpm format`      | Formata código com Prettier           |
+| `pnpm test`        | Executa testes em todos os projetos   |
+| `pnpm db:generate` | Gera o Prisma Client                  |
+| `pnpm db:migrate`  | Executa migrations do Prisma          |
+| `pnpm db:studio`   | Abre o Prisma Studio                  |
+| `pnpm clean`       | Remove node_modules e dist            |
 
 ### API (`apps/api`)
 
-| Comando | Descrição |
-|---|---|
-| `pnpm dev` | Inicia servidor com hot-reload (tsx watch) |
-| `pnpm build` | Compila TypeScript |
-| `pnpm test` | Executa testes com Vitest |
-| `pnpm prisma:generate` | Gera Prisma Client |
-| `pnpm prisma:migrate` | Executa migrations |
-| `pnpm prisma:studio` | Abre Prisma Studio |
+| Comando                | Descrição                                  |
+| ---------------------- | ------------------------------------------ |
+| `pnpm dev`             | Inicia servidor com hot-reload (tsx watch) |
+| `pnpm build`           | Compila TypeScript                         |
+| `pnpm test`            | Executa testes com Vitest                  |
+| `pnpm prisma:generate` | Gera Prisma Client                         |
+| `pnpm prisma:migrate`  | Executa migrations                         |
+| `pnpm prisma:studio`   | Abre Prisma Studio                         |
 
 ### Web (`apps/web`)
 
-| Comando | Descrição |
-|---|---|
-| `pnpm dev` | Inicia Vite dev server |
-| `pnpm build` | Build de produção |
-| `pnpm preview` | Preview do build |
-| `pnpm lint` | ESLint |
+| Comando        | Descrição              |
+| -------------- | ---------------------- |
+| `pnpm dev`     | Inicia Vite dev server |
+| `pnpm build`   | Build de produção      |
+| `pnpm preview` | Preview do build       |
+| `pnpm lint`    | ESLint                 |
 
 ---
 
@@ -257,12 +305,12 @@ fundivr-training-simulator/
 
 ## 🗄 Modelos do Banco (Prisma)
 
-| Model | Descrição |
-|---|---|
-| `Student` | Aluno/operador cadastrado |
-| `TrainingSession` | Sessão de treinamento |
-| `Event` | Evento registrado durante a sessão |
-| `Occurrence` | Ocorrência (info, warning, critical) |
+| Model             | Descrição                            |
+| ----------------- | ------------------------------------ |
+| `Student`         | Aluno/operador cadastrado            |
+| `TrainingSession` | Sessão de treinamento                |
+| `Event`           | Evento registrado durante a sessão   |
+| `Occurrence`      | Ocorrência (info, warning, critical) |
 
 ---
 
@@ -270,29 +318,27 @@ fundivr-training-simulator/
 
 ### REST API
 
-| Método | Rota | Descrição |
-|---|---|---|
-| GET | `/health` | Health check |
+| Método | Rota      | Descrição    |
+| ------ | --------- | ------------ |
+| GET    | `/health` | Health check |
 
 ### WebSocket
 
-| Rota | Descrição |
-|---|---|
+| Rota            | Descrição                |
+| --------------- | ------------------------ |
 | `/ws/telemetry` | Telemetria em tempo real |
 
 ---
 
-## 📋 Próximos Passos (Sprint 2)
+## ✅ Status do Projeto (Sprint 1 Concluída)
 
-- [ ] Implementar CRUD de Students
-- [ ] Implementar CRUD de Training Sessions
-- [ ] Implementar registro de Events
-- [ ] Implementar registro de Occurrences
-- [ ] Implementar autenticação JWT
-- [ ] Implementar lógica de telemetria via WebSocket
-- [ ] Criar telas do simulador
-- [ ] Criar dashboard com Recharts
-- [ ] Implementar sistema de scoring
+- [x] Arquitetura de Monorepo configurada
+- [x] Banco de dados e ORM integrados
+- [x] API RESTful e persistência de dados
+- [x] Sistema de pontuação / scoring dinâmico
+- [x] Simulador Interativo (Vestiário, Inspeção, Fusão, Escumação, Emergência)
+- [x] Dashboards de Debriefing e Gráfico Radar
+- [x] Modo Demo / Mock Offline (Para Apresentações em Vercel)
 
 ---
 
