@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Student ─────────────────────────────────────────────────────────────────
+
+model Student {
+  id              String            @id @default(uuid())
+  name            String
+  registration    String            @unique
+  experienceLevel String            @default("beginner") @map("experience_level")
+  createdAt       DateTime          @default(now()) @map("created_at")
+  sessions        TrainingSession[]
+
+  @@map("students")
+}
+
+// ─── Training Session ────────────────────────────────────────────────────────
+
+model TrainingSession {
+  id          String       @id @default(uuid())
+  studentId   String       @map("student_id")
+  student     Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  status      String       @default("pending")
+  startedAt   DateTime     @default(now()) @map("started_at")
+  finishedAt  DateTime?    @map("finished_at")
+  score       Float?
+  events      Event[]
+  occurrences Occurrence[]
+
+  @@index([studentId])
+  @@index([status])
+  @@map("training_sessions")
+}
+
+// ─── Event ───────────────────────────────────────────────────────────────────
+
+model Event {
+  id        String          @id @default(uuid())
+  sessionId String          @map("session_id")
+  session   TrainingSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  type      String
+  stage     String
+  payload   Json            @default("{}")
+  createdAt DateTime        @default(now()) @map("created_at")
+
+  @@index([sessionId])
+  @@index([type])
+  @@map("events")
+}
+
+// ─── Occurrence ──────────────────────────────────────────────────────────────
+
+model Occurrence {
+  id        String          @id @default(uuid())
+  sessionId String          @map("session_id")
+  session   TrainingSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  severity  String
+  message   String
+  createdAt DateTime        @default(now()) @map("created_at")
+
+  @@index([sessionId])
+  @@index([severity])
+  @@map("occurrences")
+}

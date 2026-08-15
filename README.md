@@ -1,0 +1,307 @@
+# 🔥 FundiVR Training Simulator
+
+> Simulador web para treinamento de operadores de fornos de fusão de alumínio.
+
+O sistema registra todas as ações do usuário, envia eventos para uma API REST, persiste os dados em banco e atualiza o ambiente com base na resposta recebida.
+
+---
+
+## 📐 Arquitetura
+
+```
+fundivr-training-simulator/
+│
+├── apps/
+│   ├── web/          → Frontend (React + Vite + TailwindCSS)
+│   └── api/          → Backend (Fastify + Prisma + PostgreSQL)
+│
+├── packages/
+│   ├── shared-types/   → Interfaces TypeScript compartilhadas
+│   ├── shared-schemas/ → Schemas Zod de validação
+│   └── config/         → Constantes e configuração compartilhada
+│
+├── docker/           → Configurações Docker auxiliares
+├── docs/             → Documentação do projeto
+└── docker-compose.yml
+```
+
+O projeto utiliza **pnpm workspaces** como monorepo, permitindo compartilhar tipos, schemas e configuração entre frontend e backend.
+
+---
+
+## 🛠 Stack Tecnológica
+
+### Frontend
+| Tecnologia | Uso |
+|---|---|
+| React 18 | UI Library |
+| TypeScript | Tipagem estática |
+| Vite | Build tool |
+| TailwindCSS 3 | Estilização |
+| Zustand | Estado global |
+| React Query (TanStack) | Gerenciamento de dados assíncronos |
+| Axios | HTTP client |
+| React Router DOM | Roteamento |
+| Framer Motion | Animações |
+| Recharts | Gráficos |
+| Zod | Validação |
+
+### Backend
+| Tecnologia | Uso |
+|---|---|
+| Node.js 20 | Runtime |
+| TypeScript | Tipagem estática |
+| Fastify 5 | HTTP Framework |
+| Prisma 6 | ORM |
+| PostgreSQL 15 | Banco de dados |
+| Zod | Validação de schemas |
+| WebSocket | Comunicação em tempo real |
+
+### Testes
+| Tecnologia | Uso |
+|---|---|
+| Vitest | Test runner |
+| Supertest | HTTP assertions |
+
+### Infra
+| Tecnologia | Uso |
+|---|---|
+| Docker | Containerização |
+| Docker Compose | Orquestração local |
+| pnpm | Package manager |
+| Husky | Git hooks |
+| lint-staged | Linting pre-commit |
+| ESLint | Linter |
+| Prettier | Formatador |
+
+---
+
+## 🚀 Instalação
+
+### Pré-requisitos
+
+- Node.js ≥ 20
+- pnpm ≥ 9
+- Docker e Docker Compose (para execução com containers)
+
+### Setup local
+
+```bash
+# 1. Clone o repositório
+git clone <url-do-repositório>
+cd fundivr-training-simulator
+
+# 2. Instale as dependências
+pnpm install
+
+# 3. Copie o arquivo de ambiente da API
+cp apps/api/.env.example apps/api/.env
+
+# 4. Gere o Prisma Client
+pnpm db:generate
+
+# 5. Inicie o PostgreSQL (via Docker)
+docker compose up postgres -d
+
+# 6. Execute as migrations
+pnpm db:migrate
+
+# 7. Inicie o projeto (frontend + backend)
+pnpm dev
+```
+
+### Portas padrão
+
+| Serviço | Porta |
+|---|---|
+| Frontend (Vite) | `5173` |
+| Backend (Fastify) | `3001` |
+| PostgreSQL | `5432` |
+
+---
+
+## 🐳 Docker
+
+Suba todos os serviços com um único comando:
+
+```bash
+docker compose up
+```
+
+Isso irá iniciar:
+- **PostgreSQL** na porta 5432
+- **API** na porta 3001
+- **Web** na porta 5173
+
+Para rebuild completo:
+```bash
+docker compose up --build
+```
+
+Para parar:
+```bash
+docker compose down
+```
+
+Para remover volumes (dados do banco):
+```bash
+docker compose down -v
+```
+
+---
+
+## 📝 Scripts Disponíveis
+
+### Raiz do monorepo
+
+| Comando | Descrição |
+|---|---|
+| `pnpm dev` | Inicia frontend e backend em paralelo |
+| `pnpm build` | Build de produção (packages + apps) |
+| `pnpm lint` | Executa ESLint em todos os projetos |
+| `pnpm format` | Formata código com Prettier |
+| `pnpm test` | Executa testes em todos os projetos |
+| `pnpm db:generate` | Gera o Prisma Client |
+| `pnpm db:migrate` | Executa migrations do Prisma |
+| `pnpm db:studio` | Abre o Prisma Studio |
+| `pnpm clean` | Remove node_modules e dist |
+
+### API (`apps/api`)
+
+| Comando | Descrição |
+|---|---|
+| `pnpm dev` | Inicia servidor com hot-reload (tsx watch) |
+| `pnpm build` | Compila TypeScript |
+| `pnpm test` | Executa testes com Vitest |
+| `pnpm prisma:generate` | Gera Prisma Client |
+| `pnpm prisma:migrate` | Executa migrations |
+| `pnpm prisma:studio` | Abre Prisma Studio |
+
+### Web (`apps/web`)
+
+| Comando | Descrição |
+|---|---|
+| `pnpm dev` | Inicia Vite dev server |
+| `pnpm build` | Build de produção |
+| `pnpm preview` | Preview do build |
+| `pnpm lint` | ESLint |
+
+---
+
+## 📂 Estrutura de Pastas
+
+```
+fundivr-training-simulator/
+├── apps/
+│   ├── api/
+│   │   ├── prisma/
+│   │   │   └── schema.prisma         # Modelos do banco
+│   │   ├── src/
+│   │   │   ├── config/               # Variáveis de ambiente
+│   │   │   ├── database/             # Prisma client
+│   │   │   ├── middlewares/           # Middlewares Fastify
+│   │   │   ├── modules/              # Módulos de domínio
+│   │   │   ├── routes/               # Rotas HTTP
+│   │   │   ├── schemas/              # Schemas de validação
+│   │   │   ├── services/             # Serviços de negócio
+│   │   │   ├── tests/                # Testes automatizados
+│   │   │   ├── utils/                # Utilitários
+│   │   │   ├── websocket/            # WebSocket handlers
+│   │   │   ├── app.ts                # Fastify app factory
+│   │   │   └── server.ts             # Entrypoint
+│   │   ├── Dockerfile
+│   │   └── package.json
+│   │
+│   └── web/
+│       ├── public/
+│       ├── src/
+│       │   ├── assets/               # Imagens e recursos
+│       │   ├── components/           # Componentes reutilizáveis
+│       │   ├── features/             # Features do domínio
+│       │   ├── hooks/                # Custom hooks
+│       │   ├── layouts/              # Layouts de página
+│       │   ├── pages/                # Páginas/views
+│       │   ├── routes/               # Configuração de rotas
+│       │   ├── schemas/              # Schemas locais
+│       │   ├── services/             # API client (Axios)
+│       │   ├── stores/               # Zustand stores
+│       │   ├── types/                # Tipos locais
+│       │   ├── App.tsx               # Root component
+│       │   ├── main.tsx              # Entrypoint
+│       │   └── index.css             # Estilos globais + Tailwind
+│       ├── Dockerfile
+│       └── package.json
+│
+├── packages/
+│   ├── shared-types/                 # Interfaces TypeScript
+│   ├── shared-schemas/               # Schemas Zod
+│   └── config/                       # Constantes compartilhadas
+│
+├── docker/
+│   └── .env.example                  # Template de env para Docker
+│
+├── docs/                             # Documentação
+├── .editorconfig
+├── .eslintrc.cjs
+├── .gitignore
+├── .husky/
+├── .prettierrc
+├── docker-compose.yml
+├── package.json
+├── pnpm-workspace.yaml
+├── tsconfig.base.json
+└── README.md
+```
+
+---
+
+## 🗄 Modelos do Banco (Prisma)
+
+| Model | Descrição |
+|---|---|
+| `Student` | Aluno/operador cadastrado |
+| `TrainingSession` | Sessão de treinamento |
+| `Event` | Evento registrado durante a sessão |
+| `Occurrence` | Ocorrência (info, warning, critical) |
+
+---
+
+## 🔗 Endpoints
+
+### REST API
+
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/health` | Health check |
+
+### WebSocket
+
+| Rota | Descrição |
+|---|---|
+| `/ws/telemetry` | Telemetria em tempo real |
+
+---
+
+## 📋 Próximos Passos (Sprint 2)
+
+- [ ] Implementar CRUD de Students
+- [ ] Implementar CRUD de Training Sessions
+- [ ] Implementar registro de Events
+- [ ] Implementar registro de Occurrences
+- [ ] Implementar autenticação JWT
+- [ ] Implementar lógica de telemetria via WebSocket
+- [ ] Criar telas do simulador
+- [ ] Criar dashboard com Recharts
+- [ ] Implementar sistema de scoring
+
+---
+
+## 👥 Equipe
+
+Projeto acadêmico — FundiVR Training Simulator
+
+---
+
+## 📄 Licença
+
+Este projeto é de uso acadêmico.

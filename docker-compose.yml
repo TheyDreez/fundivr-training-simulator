@@ -1,0 +1,54 @@
+services:
+  # ─── PostgreSQL ───────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:15-alpine
+    container_name: fundivr-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: fundivr
+      POSTGRES_PASSWORD: fundivr123
+      POSTGRES_DB: fundivr_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fundivr -d fundivr_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ─── API (Fastify) ───────────────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: fundivr-api
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: postgresql://fundivr:fundivr123@postgres:5432/fundivr_db?schema=public
+      API_PORT: 3001
+      API_HOST: "0.0.0.0"
+      NODE_ENV: development
+      JWT_SECRET: docker-dev-secret
+      CORS_ORIGIN: http://localhost:5173
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ─── WEB (React + Vite) ──────────────────────────────────────────────────
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: fundivr-web
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
