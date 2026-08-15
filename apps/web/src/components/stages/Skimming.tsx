@@ -6,15 +6,8 @@ import { TRAINING_STAGES, EVENT_TYPES } from '@fundivr/shared-types';
 import { Droplets, ArrowRight, Timer } from 'lucide-react';
 
 export function Skimming() {
-  const {
-    session,
-    setFeedback,
-    setCurrentStage,
-    markStageCompleted,
-    lastFeedback,
-    setScore,
-    setStageScore,
-  } = useSimulatorStore();
+  const { session, setFeedback, setCurrentStage, markStageCompleted, lastFeedback, setStageScore } =
+    useSimulatorStore();
 
   const [coveragePercent, setCoveragePercent] = useState(50);
   const [isImmersing, setIsImmersing] = useState(false);
@@ -39,7 +32,6 @@ export function Skimming() {
       }),
     onSuccess: (data) => {
       setFeedback(data.status, data.feedback);
-      setScore(data.score);
       setStageScore(TRAINING_STAGES.SKIMMING, data.score);
       setIsImmersing(false);
     },

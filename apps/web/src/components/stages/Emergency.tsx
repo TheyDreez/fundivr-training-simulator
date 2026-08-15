@@ -7,15 +7,8 @@ import { AlertTriangle, ArrowRight, BellRing } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export function Emergency() {
-  const {
-    session,
-    setFeedback,
-    markStageCompleted,
-    lastFeedback,
-    setCurrentStage,
-    setScore,
-    setStageScore,
-  } = useSimulatorStore();
+  const { session, setFeedback, markStageCompleted, lastFeedback, setCurrentStage, setStageScore } =
+    useSimulatorStore();
   const navigate = useNavigate();
 
   const [reactionTime, setReactionTime] = useState(0);
@@ -40,7 +33,6 @@ export function Emergency() {
       }),
     onSuccess: (data) => {
       setFeedback(data.status, data.feedback);
-      setScore(data.score);
       setStageScore(TRAINING_STAGES.EMERGENCY, data.score);
     },
   });

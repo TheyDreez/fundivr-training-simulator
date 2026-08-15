@@ -6,15 +6,8 @@ import { TRAINING_STAGES, EVENT_TYPES } from '@fundivr/shared-types';
 import { Truck, ArrowRight, Check, X } from 'lucide-react';
 
 export function ChargeInspection() {
-  const {
-    session,
-    setFeedback,
-    setCurrentStage,
-    markStageCompleted,
-    lastFeedback,
-    setScore,
-    setStageScore,
-  } = useSimulatorStore();
+  const { session, setFeedback, setCurrentStage, markStageCompleted, lastFeedback, setStageScore } =
+    useSimulatorStore();
 
   // Para este mockup, vamos simular que a carga apresentada é úmida.
   const [isWet] = useState(true);
@@ -29,7 +22,6 @@ export function ChargeInspection() {
     },
     onSuccess: (data) => {
       setFeedback(data.status, data.feedback);
-      setScore(data.score);
       setStageScore(TRAINING_STAGES.CHARGE, data.score);
     },
   });

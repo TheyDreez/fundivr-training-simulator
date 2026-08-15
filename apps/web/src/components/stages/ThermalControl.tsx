@@ -6,15 +6,8 @@ import { TRAINING_STAGES, EVENT_TYPES } from '@fundivr/shared-types';
 import { Flame, ArrowRight, Thermometer } from 'lucide-react';
 
 export function ThermalControl() {
-  const {
-    session,
-    setFeedback,
-    setCurrentStage,
-    markStageCompleted,
-    lastFeedback,
-    setScore,
-    setStageScore,
-  } = useSimulatorStore();
+  const { session, setFeedback, setCurrentStage, markStageCompleted, lastFeedback, setStageScore } =
+    useSimulatorStore();
 
   // O usuário controla a temperatura pelo slider
   const [temperature, setTemperature] = useState(700);
@@ -28,7 +21,6 @@ export function ThermalControl() {
       }),
     onSuccess: (data) => {
       setFeedback(data.status, data.feedback);
-      setScore(data.score);
       setStageScore(TRAINING_STAGES.THERMAL, data.score);
     },
   });

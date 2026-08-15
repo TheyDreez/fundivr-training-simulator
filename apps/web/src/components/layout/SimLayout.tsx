@@ -21,8 +21,12 @@ const STEPS = [
 ];
 
 export function SimLayout({ children }: { children: React.ReactNode }) {
-  const { student, currentStage, accumulatedScore, completedStages, blockedStages, lastFeedback } =
+  const { student, currentStage, completedStages, blockedStages, lastFeedback, stageScores } =
     useSimulatorStore();
+
+  const scores = Object.values(stageScores);
+  const partialScore =
+    scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
 
   return (
     <div className="flex h-screen bg-slate-950 text-slate-100 font-sans overflow-hidden">
@@ -102,12 +106,12 @@ export function SimLayout({ children }: { children: React.ReactNode }) {
             </span>
           </div>
 
-          <div className="flex items-center gap-6">
-            <div className="flex flex-col items-end">
-              <span className="text-xs text-slate-500 uppercase tracking-wider">Score Global</span>
-              <span className="text-2xl font-mono font-bold text-amber-500">
-                {accumulatedScore}
-              </span>
+          <div className="flex gap-8">
+            <div className="text-right">
+              <div className="text-[10px] text-slate-500 uppercase tracking-widest mb-1">
+                Pontuação Parcial
+              </div>
+              <div className="text-3xl font-mono font-bold text-emerald-400">{partialScore}</div>
             </div>
           </div>
         </header>

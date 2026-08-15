@@ -16,11 +16,15 @@ import { TRAINING_STAGES } from '@fundivr/shared-types';
 import { RotateCcw, AlertOctagon, AlertTriangle } from 'lucide-react';
 
 export function Debrief() {
-  const { session, student, accumulatedScore, stageScores, reset } = useSimulatorStore();
+  const { session, student, stageScores, reset } = useSimulatorStore();
   const navigate = useNavigate();
 
   const [data, setData] = useState<SessionWithOccurrences | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const scores = Object.values(stageScores);
+  const partialScore =
+    scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
 
   useEffect(() => {
     if (!session) {
@@ -88,7 +92,7 @@ export function Debrief() {
               Score Global Final
             </div>
             <div className="text-5xl font-mono font-bold text-emerald-400">
-              {data.score || accumulatedScore}
+              {data.score || partialScore}
             </div>
           </div>
         </header>

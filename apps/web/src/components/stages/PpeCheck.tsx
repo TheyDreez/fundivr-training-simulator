@@ -13,7 +13,6 @@ export function PpeCheck() {
     markStageCompleted,
     markStageBlocked,
     lastFeedback,
-    setScore,
     setStageScore,
   } = useSimulatorStore();
   const [helmet, setHelmet] = useState(false);
@@ -29,7 +28,6 @@ export function PpeCheck() {
       }),
     onSuccess: (data) => {
       setFeedback(data.status, data.feedback);
-      setScore(data.score); // Score agregado vindo da API
       setStageScore(TRAINING_STAGES.PPE, data.score);
       if (data.status === 'reproved') {
         // Bloqueia o acesso à próxima zona (Forno) conforme regra
